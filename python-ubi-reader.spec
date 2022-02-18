@@ -8,7 +8,7 @@
 Summary:	Python scripts for reading information about and extracting data from UBI and UBIFS images
 Name:		python-%{pypi_name}
 Version:	0.7.2
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Libraries/Python
 Source0:	https://pypi.debian.net/ubi-reader/ubi_reader-%{version}.tar.gz
@@ -23,6 +23,7 @@ BuildRequires:	python3-setuptools
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
+Requires:	python-lzo
 Requires:	python-modules >= 1:2.5
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -36,6 +37,7 @@ using the mtd-utils tools.
 %package -n python3-%{pypi_name}
 Summary:	Python scripts for reading information about and extracting data from UBI and UBIFS images
 Group:		Libraries/Python
+Requires:	python3-lzo
 Requires:	python3-modules >= 1:3.2
 
 %description -n python3-%{pypi_name}
@@ -67,6 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %py3_install
 %endif
+
+sed -i -e 's#/python2#/python3#g' $RPM_BUILD_ROOT%{_bindir}/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
